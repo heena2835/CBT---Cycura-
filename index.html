@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYCURA | Cycle Intelligence</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css?v=2.0">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar / Navigation (HIDDEN in new Mobile-First/App Design, or kept for desktop?) 
+             User asked for "Bottom of the page it should contain 3 icon". 
+             I will Hide Sidebar and use Bottom Nav for the App feel. -->
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- VIEW: GET STARTED -->
+            <div id="view-get-started" class="page">
+                <div class="onboarding-card">
+                    <div class="logo-large">
+                        <span class="material-symbols-rounded">water_drop</span>
+                        <h1>CYCURA</h1>
+                        <p>Your holistic health companion</p>
+                    </div>
+                    <form id="getStartedForm">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="gsName" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Birth Date</label>
+                            <input type="date" id="gsDob" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" id="gsAge" placeholder="30" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select id="gsGender" required>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary full-width">Get Started</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- VIEW: HOME (Health Diary) -->
+            <div id="view-home" class="page hidden">
+                <header class="top-bar">
+                    <h2>Health Diary</h2>
+                    <div class="user-profile">
+                        <span id="displayUser">Welcome</span>
+                        <div class="avatar" id="displayAvatar">U</div>
+
+                    </div>
+                </header>
+
+                <section class="calendar-section">
+                    <div id="calendarStrip" class="calendar-strip">
+                        <!-- Dates will be injected here by JS -->
+                    </div>
+                </section>
+
+                <section class="diary-section">
+                    <div class="card diary-card">
+                        <div class="card-header">
+                            <span class="material-symbols-rounded">edit_note</span>
+                            <h4>Daily Notes</h4>
+                        </div>
+                        <div class="card-body">
+                            <textarea id="diaryEntry"
+                                placeholder="How are you feeling today? Track your progress, goals, or symptoms..."></textarea>
+                            <button class="btn-secondary" id="saveDiary">Save Note</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VIEW: TRACK HUB -->
+            <div id="view-track-hub" class="page hidden">
+                <header class="top-bar">
+                    <h2>Track Your Health</h2>
+                </header>
+                <div class="hub-grid">
+                    <div class="card hub-card" id="btn-open-menstrual">
+                        <div class="hub-icon menstrual-bg"><span class="material-symbols-rounded">water_drop</span>
+                        </div>
+                        <h3>Menstrual Cycle</h3>
+                        <p>Track flows & phases</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem; opacity: 0.6;">
+                    <p><small>Select a track to view details & upload data</small></p>
+                </div>
+            </div>
+
+
+            <!-- VIEW: MENSTRUAL DASHBOARD (Existing) -->
+            <div id="view-menstrual" class="page hidden">
+                <header class="top-bar">
+                    <button class="btn-text" id="backToHub"
+                        style="background:none; border:none; color:white; display:flex; align-items:center; cursor:pointer;"><span
+                            class="material-symbols-rounded">arrow_back</span> Back</button>
+                    <h2>Cycle Intelligence</h2>
+                    <button class="icon-btn" id="reUploadBtn" style="color: var(--text-muted); display:none;"
+                        title="Re-upload Data">
+                        <span class="material-symbols-rounded">refresh</span>
+                    </button>
+                </header>
+
+                <!-- Hidden Inputs for Backend Compat -->
+                <input type="hidden" id="userName">
+                <input type="hidden" id="userAge" value="30">
+                <input type="hidden" id="userGender" value="Female">
+
+                <!-- Upload Section -->
+                <section class="upload-section" id="uploadSection">
+                    <div class="upload-card" id="dropZone">
+                        <span class="material-symbols-rounded upload-icon">cloud_upload</span>
+                        <h3>Upload Cycle Data</h3>
+                        <p>Drag & drop your CSV file here or click to browse</p>
+                        <input type="file" id="fileInput" accept=".csv" hidden>
+                        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">Select
+                            File</button>
+                        <div id="loadingIndicator" class="hidden">
+                            <div class="spinner"></div>
+                            <p>Analyzing biometrics...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Results Section (Hidden initially) -->
+                <div id="resultsDashboard" class="results-grid hidden">
+                    <!-- Key Metrics Cards with Flip Interaction -->
+
+                    <!-- 1. Cycle Type -->
+                    <div class="flip-card person-type-card">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div class="flip-card-front card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">person_check</span>
+                                    <h4>Cycle Type</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h2 id="personType">--</h2>
+                                    <p class="subtext"><small>(Tap to flip)</small></p>
+                                </div>
+                            </div>
+                            <!-- Back -->
+                            <div class="flip-card-back card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">info</span>
+                                    <h4>Analysis</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p id="personTypeDesc" class="flip-text">Analysis details will appear here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Ovulation Window -->
+                    <div class="flip-card ovulation-card">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div class="flip-card-front card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">egg_alt</span>
+                                    <h4>Ovulation Window</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h2 id="ovulationWindow">--</h2>
+                                    <p id="ovulationConf" class="subtext">Confidence: --%</p>
+                                </div>
+                            </div>
+                            <!-- Back -->
+                            <div class="flip-card-back card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">info</span>
+                                    <h4>Why this window?</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p id="ovulationDesc" class="flip-text">
+                                        Ovulation doesn’t happen at an exact moment — it usually takes place over 1 to
+                                        1.5 days.
+                                        Your temperature data shows a rise during this time range, so we highlight the
+                                        most likely window instead of a single day.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Next Period -->
+                    <div class="flip-card period-card">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div class="flip-card-front card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">event</span>
+                                    <h4>Next Period</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h2 id="nextPeriod">--</h2>
+                                    <p class="subtext"><small>(Tap to flip)</small></p>
+                                </div>
+                            </div>
+                            <!-- Back -->
+                            <div class="flip-card-back card metric-card">
+                                <div class="card-header">
+                                    <span class="material-symbols-rounded">info</span>
+                                    <h4>Prediction Logic</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p id="periodDesc" class="flip-text">
+                                        After ovulation, most bodies follow a similar timeline. We estimate your next
+                                        period based on:
+                                        <br>1. When ovulation likely happened
+                                        <br>2. How stable your temperature remained after that.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why & Suggestion (Full Width or partial) -->
+                    <div class="card suggestion-card" style="grid-column: span 3; margin-top: 1rem;">
+                        <div class="card-header">
+                            <span class="material-symbols-rounded">lightbulb</span>
+                            <h4>Why & I'd Suggest</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="suggestion-block">
+                                <p style="margin-bottom: 0.5rem;"><strong style="color: var(--primary);">Why:</strong>
+                                    <span id="whyText">--</span>
+                                </p>
+                                <p><strong style="color: var(--secondary);">Suggestion:</strong> <span
+                                        id="suggestionText">--</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Chart -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h4>Core Body Temperature Trends</h4>
+                            <div class="legend">
+                                <span class="dot fol"></span> Follicular
+                                <span class="dot ov"></span> Ovulatory
+                                <span class="dot lut"></span> Luteal
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="cycleChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div> <!-- End view-menstrual -->
+
+
+
+            <!-- VIEW: SETTINGS -->
+            <div id="view-settings" class="page hidden">
+                <header class="top-bar">
+                    <h2>Settings</h2>
+                </header>
+
+                <div class="content-scroll" style="padding: 1rem;">
+
+                    <!-- Account Profile -->
+                    <div class="card metric-card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <span class="material-symbols-rounded">account_circle</span>
+                            <h4>Account</h4>
+                        </div>
+                        <div class="card-body" style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="avatar"
+                                style="width: 50px; height: 50px; background: var(--primary-glow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                <span class="material-symbols-rounded" style="font-size: 30px;">person</span>
+                            </div>
+                            <div>
+                                <h3 id="settingsName" style="margin: 0;">User</h3>
+                                <p id="settingsGender" style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+                                    --</p>
+                            </div>
+                            <button id="logoutBtn" class="btn-secondary"
+                                style="margin-left: auto; border-color: #f87171; color: #f87171; padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                                <span class="material-symbols-rounded"
+                                    style="vertical-align: middle; font-size: 1.2rem;">logout</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Analytics History -->
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <span class="material-symbols-rounded">history</span>
+                            <h4>History</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Recent Analysis
+                                Recordings</p>
+                            <ul id="historyList" style="list-style: none; padding: 0;">
+                                <li style="text-align: center; color: var(--text-muted); padding: 1rem;">No history
+                                    found.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="height: 100px;"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav hidden" id="mainNav">
+            <button class="nav-item active" data-target="view-home">
+                <span class="material-symbols-rounded">home</span>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-target="view-track-hub">
+                <span class="material-symbols-rounded">vital_signs</span>
+                <span>Track</span>
+            </button>
+            <button class="nav-item" data-target="view-settings">
+                <span class="material-symbols-rounded">settings</span>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- Date Picker Modal -->
+    <div id="dateModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>When did your period start?</h3>
+            <div class="ellipse-container">
+                <div class="ellipse-mask"></div>
+                <div class="date-scroll-wheel" id="dateScrollWheel">
+                    <!-- Dates injected via JS -->
+                </div>
+                <div class="selection-indicator"></div>
+            </div>
+            <div class="modal-actions">
+                <button id="cancelDateBtn" class="btn-secondary">Cancel</button>
+                <button id="confirmDateBtn" class="btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Feedback Modal -->
+    <div id="feedbackModal" class="modal-overlay hidden">
+        <div class="modal-content" style="text-align: center;">
+            <div id="feedbackIcon" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary);">
+                <span class="material-symbols-rounded">check_circle</span>
+            </div>
+            <h3 id="feedbackTitle" style="margin-bottom: 0.5rem;">Success</h3>
+            <p id="feedbackMessage" style="color: var(--text-muted); margin-bottom: 1.5rem;">Action completed.</p>
+            <button id="closeFeedbackBtn" class="btn-primary full-width">Awesome</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=4"></script>
+</body>
+
+</html>
