@@ -1,0 +1,1047 @@
+:root {
+    --bg-dark: #090915;
+    /* Midnight Black */
+    --bg-card: rgba(22, 23, 46, 0.65);
+    /* Deep Indigo Glass */
+    --primary: #c4b5fd;
+    /* Soft Lavender (Moonlight) */
+    --primary-glow: rgba(196, 181, 253, 0.45);
+    --secondary: #818cf8;
+    /* Indigo */
+    --accent: #e0e7ff;
+    /* Starlight White */
+    --text-main: #f3f4f6;
+    /* Moon White */
+    --text-muted: #9ca3af;
+    /* Stardust Gray */
+    --border: rgba(196, 181, 253, 0.15);
+    /* Lavender Border */
+    --sidebar-width: 260px;
+    --font-outfit: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-outfit);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    /* Luna Gradient Base */
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, rgba(9, 9, 21, 0.9) 100%);
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* Animated Constellations Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('constellations.png');
+    background-size: 600px;
+    background-repeat: repeat;
+    z-index: -1;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+    animation: twinkle 8s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.7;
+        transform: scale(1.02);
+    }
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+    color: var(--primary);
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.nav-links li:hover,
+.nav-links li.active {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--primary);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 3rem;
+    background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.05), transparent 40%);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: 2rem;
+}
+
+.upload-card {
+    background: rgba(26, 29, 45, 0.6);
+    backdrop-filter: blur(10px);
+    border: 2px dashed var(--border);
+    border-radius: 20px;
+    padding: 4rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.upload-card.dragover {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.upload-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #818cf8, #c4b5fd);
+    border: none;
+    padding: 0.8rem 2rem;
+    color: #1e1b4b;
+    /* Dark indigo text for contrast on bright lavender */
+    text-shadow: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* Dashboard Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.card {
+    background: rgba(20, 20, 40, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(196, 181, 253, 0.08);
+    /* Faint lavender */
+    border-radius: 28px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(196, 181, 253, 0.15);
+    border-color: rgba(196, 181, 253, 0.3);
+    transform: translateY(-3px);
+}
+
+.chart-card {
+    grid-column: span 3;
+    height: 550px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.card-header h4 {
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-body h2 {
+    font-size: 1.8rem;
+    background: linear-gradient(to right, #e0e7ff, #a5b4fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 20px rgba(165, 180, 252, 0.3);
+}
+
+.subtext {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
+
+/* Chart */
+.chart-container {
+    height: 480px;
+    width: 100%;
+}
+
+.legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.fol {
+    background: #60a5fa;
+}
+
+.ov {
+    background: #f472b6;
+}
+
+.lut {
+    background: #fbbf24;
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #334155;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-left: 0.2rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+/* Today's Insight Card Special Styling */
+.insight-card .card-body {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.insight-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.insight-highlight {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* --- NEW APP EXPANSION STYLES --- */
+
+/* Page Views */
+.page {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Get Started */
+.onboarding-card {
+    max-width: 400px;
+    margin: 4rem auto;
+    background: var(--bg-card);
+    /* Reuse card bg */
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.logo-large {
+    margin-bottom: 2rem;
+}
+
+.logo-large span {
+    font-size: 3rem;
+    color: var(--primary);
+}
+
+.logo-large h1 {
+    font-size: 2rem;
+    margin: 0.5rem 0 0.2rem;
+}
+
+.logo-large p {
+    color: var(--text-muted);
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.8rem 0;
+    z-index: 100;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-item.active,
+.nav-item:hover {
+    color: var(--primary);
+}
+
+.nav-item span.material-symbols-rounded {
+    font-size: 1.5rem;
+}
+
+/* Hub Grid */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.hub-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.hub-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.hub-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.hub-icon span {
+    font-size: 2rem;
+}
+
+.sleep-bg {
+    background: linear-gradient(135deg, #4f46e5, #818cf8);
+}
+
+.stress-bg {
+    background: linear-gradient(135deg, #059669, #34d399);
+}
+
+.menstrual-bg {
+    background: linear-gradient(135deg, #db2777, #f472b6);
+}
+
+/* Calendar Strip */
+.calendar-section {
+    margin-bottom: 2rem;
+}
+
+.calendar-strip {
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.2rem;
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.calendar-strip::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+}
+
+.calendar-day {
+    min-width: 65px;
+    height: 85px;
+    background: rgba(22, 23, 46, 0.5);
+    border: 1px solid rgba(196, 181, 253, 0.1);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendar-day span.day-name {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+
+.calendar-day span.day-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.calendar-day.active {
+    background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
+    border-color: #e0e7ff;
+    box-shadow: 0 0 25px rgba(165, 180, 252, 0.4);
+    transform: scale(1.1);
+}
+
+.calendar-day.active span.day-name,
+.calendar-day.active span.day-number {
+    color: #1e1b4b;
+    /* Dark text for contrast */
+    font-weight: 700;
+}
+
+/* Diary Input Polish */
+.diary-card textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    color: white;
+    padding: 1.2rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.diary-card textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.diary-card textarea {
+    width: 100%;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: white;
+    padding: 1rem;
+    resize: none;
+    margin-bottom: 1rem;
+    font-family: inherit;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Icon Animations */
+@keyframes click-pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.85);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.click-animate {
+    animation: click-pulse 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- FLIP CARD ANIMATION --- */
+
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+    height: 180px;
+    /* Fixed height required for 3D absolute positioning */
+    cursor: pointer;
+}
+
+/* Flip animation container */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /* Unified, high-quality smooth transition */
+    transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    transform-style: preserve-3d;
+    /* Enable Hardware Acceleration for smoothness */
+    will-change: transform;
+    /* Explicit starting state */
+    transform: rotateY(0deg);
+}
+
+/* Logic for flip state */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Ensure flex formatting inherited from .card works */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    /* reset any margins from card */
+}
+
+.flip-card-front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    /* Differentiate back face slightly */
+    background: rgba(30, 30, 50, 0.95);
+    border-color: var(--primary);
+    z-index: 1;
+}
+
+/* Disable conflicting transitions and hover effects on the inner card faces */
+.flip-card .card {
+    transition: none !important;
+    /* transform: none !important;  <-- REMOVED: This was killing the back-face rotation */
+    animation: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(196, 181, 253, 0.3);
+}
+
+/* Explicitly ensure the back face is rotated */
+.flip-card-back {
+    transform: rotateY(180deg) !important;
+}
+
+/* Re-apply static box shadow if needed, but keep it simple for performance */
+.flip-card-front,
+.flip-card-back {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.flip-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    text-align: left;
+    overflow-y: auto;
+    /* Scroll if text is too long */
+}
+
+/* Adjust card body for flip context */
+.flip-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+/* Logic for flip state */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Ensure flex formatting inherited from .card works */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    /* reset any margins from card */
+}
+
+.flip-card-front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    /* Differentiate back face slightly */
+    background: rgba(30, 30, 50, 0.95);
+    border-color: var(--primary);
+    z-index: 1;
+}
+
+/* Disable conflicting transitions and hover effects on the inner card faces */
+.flip-card .card {
+    transition: none !important;
+    /* transform: none !important;  <-- REMOVED: This was killing the back-face rotation */
+    animation: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(196, 181, 253, 0.3);
+}
+
+/* Explicitly ensure the back face is rotated */
+.flip-card-back {
+    transform: rotateY(180deg) !important;
+}
+
+/* Re-apply static box shadow if needed, but keep it simple for performance */
+.flip-card-front,
+.flip-card-back {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.flip-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    text-align: left;
+    overflow-y: auto;
+    /* Scroll if text is too long */
+}
+
+/* Adjust card body for flip context */
+.flip-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* --- DATE PICKER MODAL --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: rgba(22, 23, 46, 0.95);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+/* Ellipse Container */
+.ellipse-container {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background: rgba(139, 92, 246, 0.05);
+    border-radius: 50%;
+    /* The Ellipse Shape */
+    border: 2px solid var(--border);
+    overflow: hidden;
+    /* Hide scrollbar and out-of-bounds */
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Scroll Wheel */
+.date-scroll-wheel {
+    height: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    padding-top: 130px;
+    /* Half height minus item height/2 */
+    padding-bottom: 130px;
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.date-scroll-wheel::-webkit-scrollbar {
+    display: none;
+}
+
+.date-item {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: all 0.2s;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.date-item.active-date {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Selection Indicator (Center Line) */
+.selection-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(90deg, transparent, rgba(196, 181, 253, 0.2), transparent);
+    border-top: 1px solid rgba(196, 181, 253, 0.3);
+    border-bottom: 1px solid rgba(196, 181, 253, 0.3);
+    pointer-events: none;
+    /* Find clicks pass through */
+    z-index: 10;
+}
+
+/* Gradient Masks for 3D feel */
+.ellipse-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--bg-dark) 0%, transparent 40%, transparent 60%, var(--bg-dark) 100%);
+    pointer-events: none;
+    z-index: 5;
+    border-radius: 50%;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+}
+
+/* --- INLINE CYCLE CALENDAR --- */
+.calendar-strip {
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.period-dot {
+    position: absolute;
+    bottom: 8px;
+    width: 6px;
+    height: 6px;
+    background-color: #f43f5e;
+    /* Rose Red */
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(244, 63, 94, 0.8);
+    z-index: 2;
+}
+
+.calendar-day {
+    position: relative;
+    /* Existing layout is flex-column managed by inline styles or earlier rules. 
+       We ensure min-width and height are sufficient. */
+    min-width: 60px;
+    flex-shrink: 0;
+}
+
+.calendar-day.period-active {
+    background: rgba(244, 63, 94, 0.2) !important;
+    /* Soft Red Shade */
+    border: 1px solid rgba(244, 63, 94, 0.5) !important;
+    /* Red Border */
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.15);
+}
+
+.calendar-day.period-active .day-number,
+.calendar-day.period-active .day-name {
+    color: #fca5a5;
+    /* Light Red Text */
+    font-weight: bold;
+}
+
+.calendar-day.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+/* Daily Summary Card */
+.summary-row {
+    margin-bottom: 1rem;
+}
+
+.label-flex {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.progress-bar-fill.low {
+    background: #4ade80;
+}
+
+.progress-bar-fill.mild {
+    background: #facc15;
+}
+
+.progress-bar-fill.high {
+    background: #f87171;
+}
